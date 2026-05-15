@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBOT Unit Center — โรงพยาบาลสมเด็จพระบรมราชเทวี ณ ศรีราชา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0C2D5A;
+    --navy-mid: #164079;
+    --navy-light: #E8EFF8;
+    --gold: #B8860B;
+    --gold-light: #F5EDD8;
+    --gold-pale: #FBF5E6;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --amber-light: #FAEEDA;
+    --text-main: #1a1a2e;
+    --text-muted: #555;
+    --text-light: #888;
+    --border: #dde3ec;
+    --bg: #f5f7fa;
+    --white: #ffffff;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 2px 12px rgba(12,45,90,0.08);
+    --shadow-lg: 0 4px 24px rgba(12,45,90,0.13);
+  }
+
+  body {
+    font-family: 'IBM Plex Sans Thai', 'Sarabun', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  a { color: var(--navy-mid); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    background: var(--navy);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .navbar-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-logo-box {
+    background: var(--gold);
+    width: 40px; height: 40px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  }
+  .nav-brand-text h1 { color: white; font-size: 15px; font-weight: 500; }
+  .nav-brand-text p { color: rgba(255,255,255,0.55); font-size: 11px; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75); font-size: 13px;
+    padding: 8px 14px; border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(255,255,255,0.1);
+    color: white; text-decoration: none;
+  }
+  .nav-links a.active { color: #F5D98B; }
+  .nav-toggle {
+    display: none; background: none; border: none;
+    color: white; font-size: 24px; cursor: pointer; padding: 4px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #0a2245 0%, var(--navy) 40%, #1a5276 100%);
+    padding: 4rem 1.5rem 3.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: rgba(184,134,11,0.1);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; left: -40px; bottom: -80px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 3rem;
+    position: relative; z-index: 1;
+  }
+  .hero-content { flex: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(184,134,11,0.18);
+    border: 1px solid rgba(184,134,11,0.38);
+    color: #F5D98B; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+  .hero h2 {
+    color: white; font-size: 28px; font-weight: 500;
+    line-height: 1.4; margin-bottom: 1rem;
+  }
+  .hero h2 span { color: #F5D98B; }
+  .hero-desc {
+    color: rgba(255,255,255,0.7); font-size: 14px;
+    line-height: 1.8; max-width: 460px; margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 22px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    border: none; transition: all 0.18s;
+    font-family: inherit;
+  }
+  .btn-gold { background: var(--gold); color: white; }
+  .btn-gold:hover { background: #9a6f09; text-decoration: none; color: white; }
+  .btn-ghost {
+    background: transparent; color: white;
+    border: 1px solid rgba(255,255,255,0.35);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); text-decoration: none; color: white; }
+  .hero-stats {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: var(--radius);
+    padding: 16px 24px; text-align: center;
+    min-width: 148px;
+  }
+  .stat-box .num { color: #F5D98B; font-size: 26px; font-weight: 600; }
+  .stat-box .lbl { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 2px; }
+
+  /* ===== GOLD DIVIDER ===== */
+  .divider-gold { height: 4px; background: linear-gradient(90deg, var(--gold) 0%, var(--navy) 100%); }
+
+  /* ===== QUICK ACCESS ===== */
+  .quick-section {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+  .quick-inner { max-width: 1100px; margin: 0 auto; }
+  .quick-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+    color: var(--text-light); text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .quick-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer; transition: all 0.18s;
+    text-decoration: none; color: inherit;
+  }
+  .quick-card:hover {
+    border-color: var(--navy-mid);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+    text-decoration: none; color: inherit;
+  }
+  .q-icon {
+    width: 40px; height: 40px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .qi-blue { background: var(--navy-light); }
+  .qi-gold { background: var(--gold-pale); }
+  .qi-teal { background: var(--teal-light); }
+  .qi-red { background: var(--red-light); }
+  .q-text p { font-size: 13px; font-weight: 500; }
+  .q-text span { font-size: 11px; color: var(--text-muted); }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start; }
+
+  /* ===== SECTION TITLE ===== */
+  .sec-title {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+  .sec-bar { width: 4px; height: 22px; border-radius: 3px; background: var(--navy); flex-shrink: 0; }
+  .sec-title h3 { font-size: 16px; font-weight: 500; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  .card-body { padding: 1.5rem; }
+
+  /* ===== INDICATIONS ===== */
+  .ind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .ind-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px; line-height: 1.6;
+    transition: border-color 0.15s;
+  }
+  .ind-item:hover { border-color: var(--navy-mid); }
+  .ind-num {
+    background: var(--navy); color: white;
+    font-size: 10px; font-weight: 600;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* ===== BENEFIT ===== */
+  .benefit-box {
+    background: var(--teal-light);
+    border: 1px solid #5DCAA5;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px; color: #085041; line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== CONTRA ===== */
+  .contra-box {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px; margin-bottom: 10px;
+  }
+  .contra-abs { background: var(--red-light); border: 1px solid #F09595; }
+  .contra-rel { background: var(--amber-light); border: 1px solid #FAC775; }
+  .contra-head {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; margin-bottom: 10px;
+  }
+  .contra-abs .contra-head { color: #791F1F; }
+  .contra-rel .contra-head { color: #633806; }
+  .contra-list { list-style: none; }
+  .contra-list li {
+    display: flex; align-items: flex-start; gap: 7px;
+    font-size: 12.5px; padding: 3px 0; line-height: 1.6;
+  }
+  .contra-abs .contra-list li { color: var(--red); }
+  .contra-rel .contra-list li { color: #854F0B; }
+  .dot-mark { flex-shrink: 0; margin-top: 7px; font-size: 7px; }
+
+  /* ===== SIDEBAR ===== */
+  .side-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .side-card-head {
+    background: var(--navy);
+    padding: 11px 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 500; color: white;
+  }
+  .side-card-body { padding: 14px 16px; }
+  .contact-row {
+    display: flex; gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .c-lbl { color: var(--text-light); width: 70px; flex-shrink: 0; font-size: 12px; }
+  .c-val { color: var(--text-main); line-height: 1.5; }
+  .c-val a { color: var(--navy-mid); }
+
+  .info-box {
+    background: var(--navy-light);
+    border: 1px solid #85B7EB;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 12px; color: #0C447C;
+    line-height: 1.7;
+    display: flex; gap: 8px;
+    margin-bottom: 1rem;
+  }
+  .info-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+  .forbidden-list { list-style: none; }
+  .forbidden-list li {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 0; font-size: 12.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .forbidden-list li:last-child { border-bottom: none; }
+  .f-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+
+  .related-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 0; font-size: 12.5px; color: var(--navy-mid);
+    border-bottom: 1px solid var(--border);
+  }
+  .related-link:last-child { border-bottom: none; }
+  .related-link:hover { color: var(--gold); text-decoration: none; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy);
+    margin-top: 3rem;
+    padding: 2rem 1.5rem;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 12px; }
+  .footer-box {
+    background: var(--gold);
+    width: 36px; height: 36px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 10px; font-weight: 700;
+  }
+  .footer-text h4 { color: white; font-size: 14px; font-weight: 500; }
+  .footer-text p { color: rgba(255,255,255,0.5); font-size: 11px; margin-top: 3px; }
+  .footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .footer-tag {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.55);
+    font-size: 10px; padding: 4px 11px; border-radius: 4px;
+  }
+  .footer-copy {
+    max-width: 1100px; margin: 1.5rem auto 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1rem;
+    font-size: 11px; color: rgba(255,255,255,0.35);
+    text-align: center;
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--navy); padding: 1rem; gap: 4px; }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .navbar-inner { position: relative; }
+    .hero-inner { flex-direction: column; gap: 2rem; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .quick-grid { grid-template-columns: 1fr 1fr; }
+    .main-grid { grid-template-columns: 1fr; }
+    .ind-grid { grid-template-columns: 1fr; }
+    .hero h2 { font-size: 22px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .quick-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="nav-brand">
+      <div class="nav-logo-box">HBOT</div>
+      <div class="nav-brand-text">
+        <h1>HBOT Unit Center</h1>
+        <p>Queen Savang Vadhana Memorial Hospital</p>
+      </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active">หน้าหลัก</a>
+      <a href="#indications">โรคและภาวะ</a>
+      <a href="#contraindications">ข้อห้าม</a>
+      <a href="#contact">ติดต่อเรา</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        ⚕ Hyperbaric Oxygen Therapy Center
+      </div>
+      <h2>หน่วย HBOT<br><span>โรงพยาบาลสมเด็จพระบรมราชเทวี ณ ศรีราชา</span></h2>
+      <p class="hero-desc">บริการรักษาด้วยออกซิเจนแรงดันสูง (Hyperbaric Oxygen Therapy) โดยทีมแพทย์และพยาบาลผู้เชี่ยวชาญ เพื่อประสิทธิภาพการรักษาสูงสุด</p>
+      <div class="hero-actions">
+        <a href="https://script.google.com/macros/s/AKfycbwUR2dMGnWYMDcXpVrf3czSh7k29IlfTSRXymQZxc0xUoLWohoe68eSk9aPQIPy2cYz/exec" target="_blank" class="btn btn-gold">📋 ลงข้อมูลหน่วยงาน</a>
+        <a href="#contact" class="btn btn-ghost">📞 ติดต่อหน่วยงาน</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="num">14</div>
+        <div class="lbl">โรคและภาวะที่รักษาได้</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">QSVMH</div>
+        <div class="lbl">สังกัดโรงพยาบาล</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-gold"></div>
+
+<!-- QUICK ACCESS -->
+<section class="quick-section">
+  <div class="quick-inner">
+    <div class="quick-label">เมนูด่วน</div>
+    <div class="quick-grid">
+      <a href="https://script.google.com/macros/s/AKfycbwUR2dMGnWYMDcXpVrf3czSh7k29IlfTSRXymQZxc0xUoLWohoe68eSk9aPQIPy2cYz/exec" target="_blank" class="quick-card">
+        <div class="q-icon qi-blue">📋</div>
+        <div class="q-text"><p>ลงข้อมูลหน่วยงาน</p><span>กรอกแบบฟอร์มออนไลน์</span></div>
+      </a>
+      <a href="#calendar" class="quick-card">
+        <div class="q-icon qi-teal">📅</div>
+        <div class="q-text"><p>ตารางนัดหมายรายวัน</p><span>Daily Schedule</span></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1j5o_gj2lQvJWSNE8yyFVlhjMSopqPaW5/view" target="_blank" class="quick-card">
+        <div class="q-icon qi-gold">📄</div>
+        <div class="q-text"><p>วิสัยทัศน์และพันธกิจ</p><span>Vision & Mission</span></div>
+      </a>
+      <a href="#forbidden" class="quick-card">
+        <div class="q-icon qi-red">⚠️</div>
+        <div class="q-text"><p>สิ่งของต้องห้าม</p><span>ห้องปรับบรรยากาศ</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrap">
+  <div class="main-grid">
+
+    <!-- LEFT CONTENT -->
+    <div>
+
+      <!-- INDICATIONS -->
+      <div id="indications" class="card">
+        <div class="card-body">
+          <div class="sec-title">
+            <div class="sec-bar"></div>
+            <h3>โรคและภาวะบ่งชี้ในการรักษาด้วย HBOT</h3>
+          </div>
+          <div class="ind-grid">
+            <div class="ind-item"><div class="ind-num">1</div>โรคน้ำหนีบ (Decompression Sickness)</div>
+            <div class="ind-item"><div class="ind-num">2</div>ฟองแก๊สอุดตันในหลอดเลือดแดง (Air / Gas Embolism)</div>
+            <div class="ind-item"><div class="ind-num">3</div>การติดเชื้อแบคทีเรียไม่ใช้ออกซิเจน (Gas Gangrene)</div>
+            <div class="ind-item"><div class="ind-num">4</div>บาดเจ็บจากการบดขยี้ (Crush Injury / Compartment Syndrome)</div>
+            <div class="ind-item"><div class="ind-num">5</div>พิษจาก CO / สำลักควันไฟ (CO Poisoning)</div>
+            <div class="ind-item"><div class="ind-num">6</div>แผลหายยาก เช่น แผลเบาหวาน (Problem Wound)</div>
+            <div class="ind-item"><div class="ind-num">7</div>เสียเลือดมากกลุ่มเลือดหายาก (Exceptional Blood Loss)</div>
+            <div class="ind-item"><div class="ind-num">8</div>เนื้อเยื่อตายจากการติดเชื้อ (Necrotizing Soft Tissue Infection)</div>
+            <div class="ind-item"><div class="ind-num">9</div>กระดูกอักเสบเรื้อรัง (Refractory Osteomyelitis)</div>
+            <div class="ind-item"><div class="ind-num">10</div>การปลูกถ่ายผิวหนัง / กล้ามเนื้อ (Skin Graft / Flaps)</div>
+            <div class="ind-item"><div class="ind-num">11</div>การบาดเจ็บจากรังสี (Radiation Injury)</div>
+            <div class="ind-item"><div class="ind-num">12</div>แผลไหม้จากความร้อน (Thermal Burns)</div>
+            <div class="ind-item"><div class="ind-num">13</div>ฝีในสมอง (Intracranial Abscess)</div>
+            <div class="ind-item"><div class="ind-num">14</div>สูญเสียการได้ยินเฉียบพลัน (Sensorineural Hearing Loss)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFITS -->
+      <div class="card">
+        <div class="card-body">
+          <div class="sec-title">
+            <div class="sec-bar" style="background:var(--teal)"></div>
+            <h3>ผลดีของการรักษาด้วย HBOT</h3>
+          </div>
+          <div class="benefit-box">
+            การรักษาด้วย HBOT ช่วย <strong>ลดความพิการและการสูญเสียอวัยวะ</strong> ในผู้ป่วยที่ต้องผ่าตัด HBOT จะช่วยให้แผลหายเร็วกว่าปกติ ลดระยะเวลาการรักษาโดยรวม ช่วยให้ผู้ป่วยกลับไปดำเนินชีวิตประจำวันได้เร็วขึ้น และลดค่าใช้จ่ายในการรักษาพยาบาลในระยะยาว
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTRAINDICATIONS -->
+      <div id="contraindications" class="card">
+        <div class="card-body">
+          <div class="sec-title">
+            <div class="sec-bar" style="background:var(--red)"></div>
+            <h3>ข้อห้ามและข้อพึงระมัดระวัง</h3>
+          </div>
+
+          <div class="contra-box contra-abs">
+            <div class="contra-head">
+              🚫 ข้อห้ามเด็ดขาด (Absolute Contraindication)
+            </div>
+            <ul class="contra-list">
+              <li><span class="dot-mark">●</span>Pneumothorax ที่ยังไม่ได้เจาะระบาย</li>
+              <li><span class="dot-mark">●</span>ผู้ป่วยที่ใช้ยา: Doxorubicin (Adriamycin), Cis-platinum, Disulfiram (Antabuse), Mafenide Acetate (Sulfamylon)</li>
+              <li><span class="dot-mark">●</span>ทารกแรกเกิด: Retinopathy of Prematurity / Retrolental Fibroplasia</li>
+            </ul>
+          </div>
+
+          <div class="contra-box contra-rel">
+            <div class="contra-head">
+              ⚠️ ข้อพึงระมัดระวัง (Relative Contraindication)
+            </div>
+            <ul class="contra-list">
+              <li><span class="dot-mark">●</span>URI, Sinusitis, หูอักเสบ — อาจทำให้ปรับความดันหูชั้นกลางได้ไม่ดี</li>
+              <li><span class="dot-mark">●</span>Oxygen toxicity / ถุงลมโป่งพอง</li>
+              <li><span class="dot-mark">●</span>ประวัติ Spontaneous Pneumothorax</li>
+              <li><span class="dot-mark">●</span>ผ่าตัด Otosclerosis / Tympanoplasty</li>
+              <li><span class="dot-mark">●</span>ประวัติประสาทตาอักเสบ (Optic Neuritis)</li>
+              <li><span class="dot-mark">●</span>ความผิดปกติของเม็ดเลือดแดง เช่น Congenital Spherocytosis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALENDAR EMBED -->
+      <div id="calendar" class="card">
+        <div class="card-body">
+          <div class="sec-title">
+            <div class="sec-bar" style="background:var(--gold)"></div>
+            <h3>ตารางผู้มารับบริการรายวัน</h3>
+          </div>
+          <iframe
+            src="https://www.google.com/calendar/embed?color=%230C2D5A&mode=agenda&showCalendars=1&showPrint=0&showTz=0&src=sinusrhythmforwork@gmail.com"
+            style="border:0; width:100%; height:400px; border-radius:var(--radius-sm);"
+            frameborder="0"
+            scrolling="no"
+            title="ตารางนัดหมาย HBOT">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside id="contact">
+
+      <div class="info-box">
+        <span class="info-icon">ℹ️</span>
+        ผู้ป่วยต้องตรวจหูและเอกซเรย์ปอดก่อนรับการรักษา เพื่อความปลอดภัยสูงสุด
+      </div>
+
+      <!-- CONTACT -->
+      <div class="side-card">
+        <div class="side-card-head">🏥 ข้อมูลติดต่อหน่วยงาน</div>
+        <div class="side-card-body">
+          <div class="contact-row">
+            <span class="c-lbl">โรงพยาบาล</span>
+            <span class="c-val">โรงพยาบาลสมเด็จพระบรมราชเทวี ณ ศรีราชา (QSVMH)</span>
+          </div>
+          <div class="contact-row">
+            <span class="c-lbl">หน่วยงาน</span>
+            <span class="c-val">HBOT Unit Center</span>
+          </div>
+          <div class="contact-row">
+            <span class="c-lbl">ที่อยู่</span>
+            <span class="c-val">290 ถ.เจิมจอมพล ต.ศรีราชา อ.ศรีราชา จ.ชลบุรี 20110</span>
+          </div>
+          <div class="contact-row">
+            <span class="c-lbl">อีเมล</span>
+            <span class="c-val"><a href="mailto:sinusrhythmforwork@gmail.com">sinusrhythmforwork@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORBIDDEN -->
+      <div id="forbidden" class="side-card">
+        <div class="side-card-head">🚫 สิ่งของต้องห้ามนำเข้าห้องปรับบรรยากาศ</div>
+        <div class="side-card-body">
+          <ul class="forbidden-list">
+            <li><div class="f-dot"></div>ไฟแช็กและวัสดุติดไฟทุกชนิด</li>
+            <li><div class="f-dot"></div>เครื่องมือและอุปกรณ์ไฟฟ้า</li>
+            <li><div class="f-dot"></div>น้ำยาล้างเล็บ / แอลกอฮอล์</li>
+            <li><div class="f-dot"></div>โทรศัพท์มือถือและอุปกรณ์อิเล็กทรอนิกส์</li>
+            <li><div class="f-dot"></div>เครื่องสำอางที่มีส่วนผสมน้ำมัน</li>
+            <li><div class="f-dot"></div>นาฬิกาและเครื่องประดับโลหะ</li>
+          </ul>
+          <a href="https://drive.google.com/file/d/1F7HUxhRinxLuFkcWvI7c0nfZtO_otMn5/view" target="_blank" style="display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12px;color:var(--navy-mid)">
+            📄 ดูรายละเอียดทั้งหมด →
+          </a>
+        </div>
+      </div>
+
+      <!-- RELATED LINKS -->
+      <div class="side-card">
+        <div class="side-card-head">🔗 เว็บไซต์ที่เกี่ยวข้อง</div>
+        <div class="side-card-body">
+          <a href="http://10.10.80.39:8038/intranetnew/index.php?menu=1" target="_blank" class="related-link">
+            🏥 QSVMH Intranet
+          </a>
+          <a href="https://drive.google.com/file/d/1YBVY4oHxtI-Yi3PRZgjUQ6pr25RCdLNV/view" target="_blank" class="related-link">
+            📋 หน้าที่และภารกิจ
+          </a>
+          <a href="https://drive.google.com/file/d/1j5o_gj2lQvJWSNE8yyFVlhjMSopqPaW5/view" target="_blank" class="related-link">
+            🎯 วิสัยทัศน์และพันธกิจ
+          </a>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-box">HBOT</div>
+      <div class="footer-text">
+        <h4>HBOT Unit Center — QSVMH</h4>
+        <p>290 ถ.เจิมจอมพล ต.ศรีราชา อ.ศรีราชา จ.ชลบุรี 20110<br>
+           Email: sinusrhythmforwork@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-tags">
+      <div class="footer-tag">Hyperbaric Oxygen Therapy</div>
+      <div class="footer-tag">Medical Unit</div>
+      <div class="footer-tag">QSVMH</div>
+    </div>
+  </div>
+  <div class="footer-copy">
+    © 2568 หน่วย HBOT — โรงพยาบาลสมเด็จพระบรมราชเทวี ณ ศรีราชา · สงวนลิขสิทธิ์
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => links.classList.remove('open'));
+  });
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
